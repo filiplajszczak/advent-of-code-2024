@@ -1,0 +1,3 @@
+*.log
+day*.in
+!day*example*.in
