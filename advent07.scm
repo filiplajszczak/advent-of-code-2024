@@ -37,10 +37,7 @@
     (any (λ (perm) (perm-ok? perm total numbers)) perms)))
 
 (define (|| a b)
-  (string->number
-    (string-append
-      (number->string a)
-      (number->string b))))
+  (+ (* a (expt 10 (1+ (floor (log10 b))))) b))
 
 (define (solve ops filename)
   (let* ([data (map (λ (line) (map string->number (string-split (string-replace-substring line ":" "") #\space))) (input filename))])
