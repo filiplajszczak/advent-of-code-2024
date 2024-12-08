@@ -1,7 +1,7 @@
 #!/usr/bin/guile -s
 !#
 
-(use-modules ((ice-9 string-fun) #:select (string-replace-substring))
+(use-modules ((string transform) #:select (collapse-repeated-chars))
              ((srfi srfi-1) #:select (count))
              ((srfi srfi-64) #:select (test-begin
                                        test-end
@@ -16,7 +16,7 @@
   (apply map list
     (map (λ (str) (map string->number str))
       (map (λ (l) (string-split l #\space))
-        (map (λ (l) (string-replace-substring l "   " " ")) lines)))))
+        (map (λ (l) (collapse-repeated-chars l)) lines)))))
 
 (define (count-occurrences elem lst)
   (count (λ (x) (equal? x elem)) lst))
