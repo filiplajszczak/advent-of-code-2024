@@ -10,3 +10,4 @@ Run `guile dayXX.scm` to solve the puzzle.
 
 * [ZelphirKaltstahl/advent-of-code-2024](https://codeberg.org/ZelphirKaltstahl/advent-of-code-2024)
 * [anemofilia/aoc-2024](https://codeberg.org/anemofilia/aoc-2024)
+* [jeko/advent-of-code](https://framagit.org/jeko/advent-of-code)
