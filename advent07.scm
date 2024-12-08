@@ -21,7 +21,7 @@
 
 (define (perm-ok? perm total numbers)
     (define (aux operations acc left)
-      (if (null? operations)
+      (if (or (null? operations) (> acc total))
           #f
           (let* ([operation (car operations)]
                  [result (operation acc (car left))])
