@@ -2,10 +2,11 @@
 !#
 
 (use-modules ((string transform) #:select (collapse-repeated-chars))
-             ((srfi srfi-1) #:select (count))
+             ((srfi srfi-1) #:select (count zip))
              ((srfi srfi-64) #:select (test-begin
                                        test-end
                                        test-equal))
+             ((srfi srfi-197) #:select (chain))
              ((f) #:select (read-lines))
              ((algorithms) #:select (sum zip-with)))
 
@@ -13,10 +14,12 @@
    (read-lines filename))
 
 (define (lines-of-pairs->pair-of-lists lines)
-  (apply map list
-    (map (λ (str) (map string->number str))
-      (map (λ (l) (string-split l #\space))
-        (map (λ (l) (collapse-repeated-chars l)) lines)))))
+  (chain
+    lines
+    (map (λ (l) (collapse-repeated-chars l)) _)
+    (map (λ (l) (string-split l #\space)) _)
+    (map (λ (str) (map string->number str)) _)
+    (apply zip _)))
 
 (define (count-occurrences elem lst)
   (count (λ (x) (equal? x elem)) lst))
@@ -27,15 +30,19 @@
     (map (λ (elem) (* elem (count-occurrences elem second))) first)))
 
 (define (part-1 filename)
-  (sum
-    (apply zip-with (λ (a b) (abs (- a b)))
-      (map (λ (l) (sort l <))
-        (lines-of-pairs->pair-of-lists (input filename))))))
+  (chain
+    (input filename)
+    (lines-of-pairs->pair-of-lists _)
+    (map (λ (l) (sort l <)) _)
+    (apply zip-with (λ (a b) (abs (- a b))) _)
+    (sum _)))
 
 (define (part-2 filename)
-  (sum
-    (similarity-scores
-      (lines-of-pairs->pair-of-lists (input filename)))))
+  (chain
+    (input filename)
+    (lines-of-pairs->pair-of-lists _)
+    (similarity-scores _)
+    (sum _)))
 
 ;; Part 1
 (display (part-1 "day01.in"))
